@@ -13,7 +13,7 @@ from sklearn.ensemble import RandomForestClassifier
 from sklearn.metrics import classification_report, confusion_matrix, accuracy_score
 import pickle
 
-# Data Collection & Processing
+## Data Collection & Processing
 # Load dataset
 data = pd.read_csv("/content/Rainfall.csv")
 
@@ -31,7 +31,7 @@ data["windspeed"] = data["windspeed"].fillna(data['windspeed'].median())
 # Encode target variable
 data["rainfall"] = data["rainfall"].map({"yes": 1, "no": 0})
 
-# Exploratory Data Analysis (EDA)
+## Exploratory Data Analysis (EDA)
 
 sns.set(style="whitegrid")
 data.describe()
@@ -66,7 +66,7 @@ for i, column in enumerate(['pressure', 'maxtemp', 'temparature', 'mintemp', 'de
 plt.tight_layout()
 plt.show()
 
-# Data Preprocessing
+## Data Preprocessing
 
 # Drop highly correlated columns
 data = data.drop(columns=['maxtemp','temparature', 'mintemp'])
@@ -84,7 +84,7 @@ y = df_downsampled["rainfall"]
 
 x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=0.2, random_state=42)
 
-# Model Training & Hyperparameter Tuning
+## Model Training & Hyperparameter Tuning
 
 rf_model = RandomForestClassifier(random_state=42)
 
@@ -103,7 +103,7 @@ grid_search_rf.fit(x_train, y_train)
 best_rf_model = grid_search_rf.best_estimator_
 print("Best Parameters:", grid_search_rf.best_params_)
 
-# Model Evaluation
+## Model Evaluation
 
 cv_scores = cross_val_score(best_rf_model, x_train, y_train, cv=5)
 print("Cross-validation scores:", cv_scores)
@@ -114,7 +114,7 @@ print("Test Set Accuracy:", accuracy_score(y_test, y_pred))
 print("Classification Report:\n", classification_report(y_test, y_pred))
 print("Confusion Matrix:\n", confusion_matrix(y_test, y_pred))
 
-# Prediction on New Data
+## Prediction on New Data
 input_data = (1015.9, 19.9, 95, 81, 0.0, 40.0, 13.7)
 input_df = pd.DataFrame([input_data],
                         columns=['pressure', 'dewpoint', 'humidity',
@@ -123,7 +123,7 @@ input_df = pd.DataFrame([input_data],
 prediction = best_rf_model.predict(input_df)
 print("Prediction:", "Rainfall" if prediction[0]==1 else "No Rainfall")
 
-Model Saving & Loading
+## Model Saving & Loading
 # Save model & features
 model_data = {"model": best_rf_model, "features": list(x_train.columns)}
 with open("RainfallPredictionModel.pkl", "wb") as file:
