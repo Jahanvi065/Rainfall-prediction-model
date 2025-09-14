@@ -2,7 +2,7 @@
 Built a rainfall prediction model using Python and machine learning techniques.
 
 ## Importing Dependencies
-
+```python
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
